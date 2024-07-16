@@ -1,4 +1,5 @@
 import { BidDetails } from '@/common/interfaces';
+import axios from 'axios';
 import { useState } from 'react';
 import { ErrorMessage } from './error.component';
 import { NoDataFound } from './no-data-found.component';
@@ -19,8 +20,7 @@ const BidSearch: React.FC = () => {
     setError(null);
     setIsSearched(true);
     try {
-      const response = await fetch(`/api/bid?bidId=${bidId}`);
-      const data = await response.json();
+      const { data } = await axios.get(`/api/bid?bidId=${bidId}`);
       setBidDetails(data);
     } catch (err) {
       setError('Failed to fetch bid details');
@@ -51,9 +51,11 @@ const BidSearch: React.FC = () => {
             {loading ? 'Loading...' : 'Submit'}
           </button>
         </div>
-        <div className="text-center text-gray-500 pr-[125px]">Enter a bid ID to view the details</div>
+        <div className="text-center text-gray-500 pr-[125px]">
+          Enter a bid ID to view the details
+        </div>
       </div>
-      {bidDetails?.title && (
+      {!loading && !error && bidDetails?.title && (
         <div className="shadow-lg w-full bg-white text-base rounded-md group mt-10 w-full max-w-md border-gray-300 p-4 rounded-md">
           <p>
             <strong>Title:</strong> {bidDetails.title}
@@ -92,7 +94,7 @@ const BidSearch: React.FC = () => {
           </div>
         </div>
       )}
-      {isSearched && !loading && !bidDetails?.title && <NoDataFound />}
+      {!error && isSearched && !loading && !bidDetails?.title && <NoDataFound />}
       {error && <ErrorMessage error={error} />}
     </div>
   );
