@@ -56,7 +56,7 @@ const BidSearch: React.FC = () => {
         </div>
       </div>
       {!loading && !error && bidDetails?.title && (
-        <div className="shadow-lg w-full bg-white text-base rounded-md group mt-10 w-full max-w-md border-gray-300 p-4 rounded-md">
+        <div className="shadow-lg w-full bg-white text-base rounded-md group mt-10 max-w-md border-gray-300 p-4">
           <p>
             <strong>Title:</strong> {bidDetails.title}
           </p>
