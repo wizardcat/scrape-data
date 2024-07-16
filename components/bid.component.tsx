@@ -10,11 +10,11 @@ const BidSearch: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isSearched, setIsSearched] = useState<boolean>(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBidIdInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBidId(e.target.value);
   };
 
-  const handleSearch = async () => {
+  const handleSubmitClick = async () => {
     setLoading(true);
     setError(null);
     setIsSearched(true);
@@ -41,11 +41,11 @@ const BidSearch: React.FC = () => {
             className="border-2 border-gray-300 rounded-md p-2 w-full focus:border-black focus:outline-none"
             placeholder="Enter Bid ID"
             value={bidId}
-            onChange={handleInputChange}
+            onChange={handleBidIdInputChange}
           />
           <button
-            className="ml-4 bg-black px-4 py-2 rounded-md right-0   text-white"
-            onClick={handleSearch}
+            className="ml-4 bg-black px-2 py-2 rounded-md right-0   text-white w-[175px]"
+            onClick={handleSubmitClick}
             disabled={bidId === '' || loading}
           >
             {loading ? 'Loading...' : 'Submit'}
