@@ -1,11 +1,14 @@
 import { BidDetails } from '@/common/interfaces';
 import { useState } from 'react';
+import { ErrorMessage } from './error.component';
+import { NoDataFound } from './no-data-found.component';
 
 const BidSearch: React.FC = () => {
   const [bidId, setBidId] = useState<string>('');
   const [bidDetails, setBidDetails] = useState<BidDetails | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [isSearched, setIsSearched] = useState<boolean>(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBidId(e.target.value);
@@ -14,6 +17,7 @@ const BidSearch: React.FC = () => {
   const handleSearch = async () => {
     setLoading(true);
     setError(null);
+    setIsSearched(true);
     try {
       const response = await fetch(`/api/bid?bidId=${bidId}`);
       const data = await response.json();
@@ -26,7 +30,7 @@ const BidSearch: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-10">
+    <div className="flex flex-col items-center mt-10 w-[560px]">
       <div className="shadow-lg w-full h-36 bg-white text-base rounded-md group">
         <div className="m-3">
           <h6 className="font-bold text-black">Bid Dashboard</h6>
@@ -42,17 +46,14 @@ const BidSearch: React.FC = () => {
           <button
             className="ml-4 bg-black px-4 py-2 rounded-md right-0   text-white"
             onClick={handleSearch}
-            disabled={loading}
+            disabled={bidId === '' || loading}
           >
-            Submit
+            {loading ? 'Loading...' : 'Submit'}
           </button>
         </div>
         <div className="text-center text-gray-500">Enter a bid ID to view the details</div>
       </div>
-
-      {error && <div className="mt-4 text-red-500">{error}</div>}
-
-      {bidDetails && (
+      {bidDetails?.title && (
         <div className="shadow-lg w-full bg-white text-base rounded-md group mt-10 w-full max-w-md border-gray-300 p-4 rounded-md">
           <p>
             <strong>Title:</strong> {bidDetails.title}
@@ -91,6 +92,8 @@ const BidSearch: React.FC = () => {
           </div>
         </div>
       )}
+      {isSearched && !loading && !bidDetails?.title && <NoDataFound />}
+      {error && <ErrorMessage error={error} />}
     </div>
   );
 };
