@@ -51,7 +51,7 @@ const BidSearch: React.FC = () => {
             {loading ? 'Loading...' : 'Submit'}
           </button>
         </div>
-        <div className="text-center text-gray-500">Enter a bid ID to view the details</div>
+        <div className="text-center text-gray-500 pr-[125px]">Enter a bid ID to view the details</div>
       </div>
       {bidDetails?.title && (
         <div className="shadow-lg w-full bg-white text-base rounded-md group mt-10 w-full max-w-md border-gray-300 p-4 rounded-md">
