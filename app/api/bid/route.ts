@@ -26,12 +26,12 @@ export async function GET(req: Request) {
       return NextResponse.json(
         [
           {
-            code: 'missing_query_param',
+            code: 'no_data_found',
             field: 'bidId',
-            message: 'Query param bidId is required',
+            message: 'No data found',
           },
         ],
-        { status: 400 },
+        { status: 404 },
       );
     }
 
