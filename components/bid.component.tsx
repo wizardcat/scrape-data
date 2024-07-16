@@ -1,32 +1,23 @@
-import { BidDetails } from '@/common/interfaces';
-import axios from 'axios';
+import { useBidQuery } from '@/hooks/use-bid-query';
 import { useState } from 'react';
 import { ErrorMessage } from './error.component';
 import { NoDataFound } from './no-data-found.component';
 
+
 const BidSearch: React.FC = () => {
   const [bidId, setBidId] = useState<string>('');
-  const [bidDetails, setBidDetails] = useState<BidDetails | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [currentBidId, setCurrentBidId] = useState('');
   const [isSearched, setIsSearched] = useState<boolean>(false);
 
+  const { error, isLoading, isError, data: bidDetails } = useBidQuery({ id: currentBidId });
+  
   const handleBidIdInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBidId(e.target.value);
   };
 
   const handleSubmitClick = async () => {
-    setLoading(true);
-    setError(null);
     setIsSearched(true);
-    try {
-      const { data } = await axios.get(`/api/bid?bidId=${bidId}`);
-      setBidDetails(data);
-    } catch (err) {
-      setError('Failed to fetch bid details');
-    } finally {
-      setLoading(false);
-    }
+    setCurrentBidId(bidId);
   };
 
   return (
@@ -46,16 +37,16 @@ const BidSearch: React.FC = () => {
           <button
             className="ml-4 bg-black px-2 py-2 rounded-md right-0   text-white w-[175px]"
             onClick={handleSubmitClick}
-            disabled={bidId === '' || loading}
+            disabled={bidId === '' || isLoading}
           >
-            {loading ? 'Loading...' : 'Submit'}
+            {isLoading ? 'Loading...' : 'Submit'}
           </button>
         </div>
         <div className="text-center text-gray-500 pr-[125px]">
           Enter a bid ID to view the details
         </div>
       </div>
-      {!loading && !error && bidDetails?.title && (
+      {!isLoading && !isError && bidDetails?.title && (
         <div className="shadow-lg w-full bg-white text-base rounded-md group mt-10 max-w-md border-gray-300 p-4">
           <p>
             <strong>Title:</strong> {bidDetails.title}
@@ -94,8 +85,8 @@ const BidSearch: React.FC = () => {
           </div>
         </div>
       )}
-      {!error && isSearched && !loading && !bidDetails?.title && <NoDataFound />}
-      {error && <ErrorMessage error={error} />}
+      {!isError && isSearched && !isLoading && !bidDetails?.title && <NoDataFound />}
+      {isError && <ErrorMessage error={error.message} />}
     </div>
   );
 };
