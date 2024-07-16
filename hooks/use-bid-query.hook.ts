@@ -21,6 +21,7 @@ interface UseBidQueryOptions {
 }
 
 export const useBidQuery = ({ id }: UseBidQueryOptions) => {
+
   const query = useQuery<BidDetails>({
     queryKey: ['bid', id],
     enabled: !!id,
@@ -29,7 +30,8 @@ export const useBidQuery = ({ id }: UseBidQueryOptions) => {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     retry: 0,
-  });
+  },
+  );
 
   return query;
 };
