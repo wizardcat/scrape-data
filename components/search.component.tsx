@@ -1,5 +1,3 @@
-'use client';
-
 import useBidStore from '@/store/bidStore';
 import { useState } from 'react';
 

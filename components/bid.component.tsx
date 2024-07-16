@@ -6,7 +6,7 @@ import { NoDataFound } from './no-data-found.component';
 import { Search } from './search.component';
 
 
-const BidSearch: React.FC = () => {
+const BidSearch = () => {
   const currentBidId = useBidStore((state) => state.currentBidId);
   const {
     error,
