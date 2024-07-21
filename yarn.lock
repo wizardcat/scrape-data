@@ -227,6 +227,14 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.10.3.tgz#391d528054f758f81e53210f1a1eebcf1a8b1d20"
   integrity sha512-qC/xYId4NMebE6w/V33Fh9gWxLgURiNYgVNObbJl2LZv0GUUItCcCqC5axQSwRaAgaxl2mELq1rMzlswaQ0Zxg==
 
+"@sparticuz/chromium@^126.0.0":
+  version "126.0.0"
+  resolved "https://registry.yarnpkg.com/@sparticuz/chromium/-/chromium-126.0.0.tgz#4383d009c6dae1fb09e6fb9503ce50ac8348ce82"
+  integrity sha512-qqGQmZQj3y0/V2osKswRHbzK4Qe80YHSDnpt6ac51hsY1bMDinMS9Q+eEmcL+re2MEhYN+ykoV9BY8Dyw1Lyjg==
+  dependencies:
+    follow-redirects "^1.15.6"
+    tar-fs "^3.0.6"
+
 "@swc/counter@^0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@swc/counter/-/counter-0.1.3.tgz#cc7463bd02949611c6329596fccd2b0ec782b0e9"
@@ -2760,7 +2768,7 @@ punycode@^2.1.0:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.1.tgz#027422e2faec0b25e1549c3e1bd8309b9133b6e5"
   integrity sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==
 
-puppeteer-core@22.13.1:
+puppeteer-core@22.13.1, puppeteer-core@^22.13.1:
   version "22.13.1"
   resolved "https://registry.yarnpkg.com/puppeteer-core/-/puppeteer-core-22.13.1.tgz#3ba03e5ebd98bbbd86e465864cf00314e07309de"
   integrity sha512-NmhnASYp51QPRCAf9n0OPxuPMmzkKd8+2sB9Q+BjwwCG25gz6iuNc3LQDWa+cH2tyivmJppLhNNFt6Q3HmoOpw==

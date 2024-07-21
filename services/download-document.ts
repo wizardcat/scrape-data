@@ -1,12 +1,35 @@
+import chromium from '@sparticuz/chromium';
 import fs from 'fs';
 import puppeteer from 'puppeteer';
+import puppeteerCore from 'puppeteer-core';
+
+export const dynamic = 'force-dynamic';
+
+async function getBrowser() {
+  if (process.env.VERCEL_ENV === 'production') {
+    const executablePath = await chromium.executablePath();
+
+    const browser = await puppeteerCore.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath,
+      headless: chromium.headless,
+    });
+    return browser;
+  } else {
+    const browser = await puppeteer.launch();
+    return browser;
+  }
+}
 
 export async function downloadDocument(url: string, downloadPath: string): Promise<string> {
   try {
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
+    const browser = await getBrowser();
+    // const browser = await puppeteer.launch({
+    //   headless: true,
+    //   args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    // });
+
     const page = await browser.newPage();
 
     const client = await page.createCDPSession();
