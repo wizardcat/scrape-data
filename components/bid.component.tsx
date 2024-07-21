@@ -1,19 +1,14 @@
-
+'use client';
 import { useBidQuery } from '@/hooks/use-bid-query.hook';
 import useBidStore from '@/store/bidStore';
 import { ErrorMessage } from './error.component';
 import { NoDataFound } from './no-data-found.component';
 import { Search } from './search.component';
-
+import { DocViewerDirect } from './doc-viewer-direct.component';
 
 const BidSearch = () => {
   const currentBidId = useBidStore((state) => state.currentBidId);
-  const {
-    error,
-    isLoading,
-    isError,
-    data: bidDetails,
-  } = useBidQuery({ id: currentBidId });
+  const { error, isLoading, isError, data: bidDetails } = useBidQuery({ id: currentBidId });
 
   return (
     <div className="flex flex-col items-center mt-10 w-[560px]">
@@ -39,8 +34,9 @@ const BidSearch = () => {
             <strong>Solicitation Type:</strong> {bidDetails.solicitationType}
           </p>
           <div>
-            <strong>Attachments:</strong>
-            <ul className="list-disc pl-5">
+            {/* <strong>Attachments:</strong> */}
+            {bidDetails?.title && <DocViewerDirect attachments={bidDetails.attachments} />}
+            {/* <ul className="list-disc pl-5">
               {bidDetails?.attachments?.map((attachment, index) => (
                 <li key={index}>
                   <a
@@ -51,12 +47,15 @@ const BidSearch = () => {
                   >
                     {attachment.title}
                   </a>
+                  <div>{attachment.fileName}</div>
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </div>
         </div>
       )}
+      {/* <Document /> */}
+      {/* {bidDetails?.title && <PdfViewer />} */}
       {!isError && currentBidId && !isLoading && !bidDetails?.title && <NoDataFound />}
       {isError && <ErrorMessage error={error.message} />}
     </div>
