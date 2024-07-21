@@ -1,19 +1,18 @@
 import useBidStore from '@/store/bidStore';
 import { useState } from 'react';
 
-export const Search = ({isLoading}: {isLoading: boolean}) => {
-
+export const Search = ({ isLoading }: { isLoading: boolean }) => {
   const [bidId, setBidId] = useState<string>('');
 
   const setCurrentBidId = useBidStore((state) => state.setCurrentBidId);
-  
-    const handleBidIdInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setBidId(e.target.value);
-    };
 
-    const handleSubmitClick = async () => {
-      setCurrentBidId(bidId);
-    };
+  const handleBidIdInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBidId(e.target.value);
+  };
+
+  const handleSubmitClick = async () => {
+    setCurrentBidId(bidId);
+  };
 
   return (
     <div className="shadow-lg w-full h-36 bg-white text-base rounded-md group">
@@ -29,7 +28,7 @@ export const Search = ({isLoading}: {isLoading: boolean}) => {
           onChange={handleBidIdInputChange}
         />
         <button
-          className="ml-4 bg-black px-2 py-2 rounded-md right-0   text-white w-[175px]"
+          className="ml-4 bg-black  hover:bg-gray-800 px-2 py-2 rounded-md right-0   text-white w-[175px]"
           onClick={handleSubmitClick}
           disabled={bidId === '' || isLoading}
         >
@@ -40,4 +39,3 @@ export const Search = ({isLoading}: {isLoading: boolean}) => {
     </div>
   );
 };
-
