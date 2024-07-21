@@ -1,6 +1,7 @@
-interface attachment {
+export interface Attachment {
   title: string;
   link: string;
+  fileName: string;
 }
 export interface BidDetails {
   title: string;
@@ -9,5 +10,5 @@ export interface BidDetails {
   solicitationSummary: string;
   mainCategory: string;
   solicitationType: string;
-  attachments: attachment[];
+  attachments: Attachment[];
 }
