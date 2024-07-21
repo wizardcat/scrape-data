@@ -22,7 +22,7 @@ export async function downloadDocument(url: string, downloadPath: string): Promi
     await page.waitForSelector(downloadButtonSelector);
     await page.click(downloadButtonSelector);
 
-    await new Promise((resolve) => setTimeout(resolve, 10000));
+    await new Promise((resolve) => setTimeout(resolve, 5000));
 
     const files = fs.readdirSync(downloadPath);
     const downloadedFile = files.find((file) => file.endsWith('.pdf'));
