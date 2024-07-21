@@ -23,9 +23,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
       );
     }
 
-    // const downloadPath = path.join(process.cwd(), 'public', documentsDirectory);
+    const downloadPath = path.join(process.cwd(), 'public', documentsDirectory);
+    
     // const downloadPath = path.join(__dirname, 'public', documentsDirectory);
-    const downloadPath = path.join('/', 'public', documentsDirectory);
+    // const downloadPath = path.join('/', 'public', documentsDirectory);
     if (!fs.existsSync(downloadPath)) {
       fs.mkdirSync(downloadPath, { recursive: true });
     }
