@@ -1,9 +1,10 @@
+import { scrapUrl } from '@/common/config';
 import { BidDetails } from '@/common/interfaces';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
 export const getBidDetails = async (bidDetailUrl: string) => {
-  const { data } = await axios.get(`https://emma.maryland.gov${bidDetailUrl}`);
+  const { data } = await axios.get(`${scrapUrl}${bidDetailUrl}`);
   const $ = cheerio.load(data);
 
   const title = $('#body_x_tabc_rfp_ext_prxrfp_ext_x_lblLabel').text().trim();
@@ -24,12 +25,9 @@ export const getBidDetails = async (bidDetailUrl: string) => {
     .map((i, el) => {
       const row = $((el as cheerio.Element).children);
       const title = $(row[1]).text().trim();
-      const link = `https://emma.maryland.gov/bare.aspx/en/fil/download_public/ba136075-ca00-4116-a30e-5ee88bce7a1a?file_context[rfp]=72220 ${$(
-        row[3],
-      )
-        .text()
-        .trim()}`;
-      return { title, link };
+      const link = scrapUrl + $('a', row[3]).attr('href')!;
+      const fileName = $('span', row[3]).text().trim();
+      return { title, link, fileName };
     })
     .get();
 

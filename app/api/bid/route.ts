@@ -21,7 +21,7 @@ export async function GET(req: Request) {
 
   try {
     const bidDetailUrl = await getBidDetailsUrl(bidId);
-    
+
     if (!bidDetailUrl) {
       return NextResponse.json(
         [
@@ -36,6 +36,19 @@ export async function GET(req: Request) {
     }
 
     const bidDetails = await getBidDetails(bidDetailUrl);
+
+    if (!bidDetails) {
+      return NextResponse.json(
+        [
+          {
+            code: 'no_data_found',
+            field: 'bidId',
+            message: 'No data found',
+          },
+        ],
+        { status: 404 },
+      );
+    }
 
     return NextResponse.json(bidDetails);
   } catch (error) {
