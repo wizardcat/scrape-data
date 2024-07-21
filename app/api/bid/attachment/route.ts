@@ -1,3 +1,4 @@
+import { documentsDirectory } from '@/common/config';
 import { downloadDocument } from '@/services/download-document';
 import fs from 'fs';
 import { NextRequest, NextResponse } from 'next/server';
@@ -22,17 +23,17 @@ export async function GET(req: NextRequest, res: NextResponse) {
       );
     }
 
-    const pathToDocs = process.env.NODE_ENV === 'development' ? '/documents' : 'documents';
-    const pathToPublic = process.env.NODE_ENV === 'development' ? '/public' : 'public';
-    const docDirectoryPath = process.cwd();
+    // const pathToDocs = process.env.NODE_ENV === 'development' ? '/documents' : 'documents';
+    // const pathToPublic = process.env.NODE_ENV === 'development' ? '/public' : 'public';
+    // const docDirectoryPath = process.cwd();
     // const files = await fs.readdir(path.join(docDirectoryPath, pathToPosts), {
     //   withFileTypes: true,
     // });
-    const downloadPath = path.join(docDirectoryPath, pathToPublic, pathToDocs);
+    // const downloadPath = path.join(docDirectoryPath, pathToPublic, pathToDocs);
     // const downloadPath = path.join(process.cwd(), 'public', documentsDirectory);
     
     // const downloadPath = path.join(__dirname, 'public', documentsDirectory);
-    // const downloadPath = path.join('/', 'public', documentsDirectory);
+    const downloadPath = path.join('public', documentsDirectory);
     if (!fs.existsSync(downloadPath)) {
       fs.mkdirSync(downloadPath, { recursive: true });
     }
