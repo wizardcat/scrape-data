@@ -34,9 +34,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const downloadPath = path.join('/tmp', documentsDirectory);
     // const downloadPath = path.join(__dirname, 'public', documentsDirectory);
     // const downloadPath = path.join('public', documentsDirectory);
-    // if (!fs.existsSync(downloadPath)) {
-    //   fs.mkdirSync(downloadPath, { recursive: true });
-    // }
+    if (!fs.existsSync(downloadPath)) {
+      fs.mkdirSync(downloadPath, { recursive: true });
+    }
 
     const downloadedFile = await downloadDocument(url, downloadPath);
     const filePath = path.join(downloadPath, downloadedFile);
