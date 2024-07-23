@@ -44,7 +44,6 @@ export async function downloadDocument(url: string, downloadPath: string): Promi
     const downloadButtonSelector = '#proxyActionBar_x__cmdEnd';
     await page.waitForSelector(downloadButtonSelector);
     await page.click(downloadButtonSelector);
-console.log(' downloadButtonSelector: clicked');
 
     await new Promise((resolve) => setTimeout(resolve, 4500));
 

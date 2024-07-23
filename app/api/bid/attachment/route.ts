@@ -22,37 +22,24 @@ export async function GET(req: NextRequest, res: NextResponse) {
         { status: 400 },
       );
     }
-
-    // const pathToDocs = process.env.NODE_ENV === 'development' ? '/documents' : 'documents';
-    // const pathToPublic = process.env.NODE_ENV === 'development' ? '/public' : 'public';
-    // const docDirectoryPath = process.cwd();
-    // const files = await fs.readdir(path.join(docDirectoryPath, pathToPosts), {
-    //   withFileTypes: true,
-    // });
-    // const downloadPath = path.join(docDirectoryPath, pathToPublic, pathToDocs);
+    // /public can't be used on Versel because app starts like services
     // const downloadPath = path.join(process.cwd(), 'public', documentsDirectory);
-    const downloadPath = path.join( '/tmp/', documentsDirectory);
-    console.log('downloadPath: ', downloadPath);
-    
-    // const downloadPath = path.join(__dirname, 'public', documentsDirectory);
-    // const downloadPath = path.join('public', documentsDirectory);
+    // /tmp can't be used on Versel because of timeout limitation for hobby plan
+    //to do: realize using external storage
+    const downloadPath = path.join('/tmp/', documentsDirectory);
+
     if (!fs.existsSync(downloadPath)) {
       fs.mkdirSync(downloadPath, { recursive: true });
     }
- console.log('downloadPath creation: done');
     const downloadedFile = await downloadDocument(url, downloadPath);
     const filePath = path.join(downloadPath, downloadedFile);
     console.log('filePath: ', filePath);
-    
+
     const fileData = fs.readFileSync(filePath);
 
     // res.headers.set('Content-Disposition', `attachment; filename=${path.basename(filePath)}`);
     // res.headers.set('Content-Type', 'application/pdf');
     // createReadStream(filePath).pipe(res);
-
-    // res.headers.set('Content-Disposition', `attachment; filename=${path.basename(filePath)}`);
-    // res.headers.set('Content-Type', 'application/pdf');
-
     // const fileStream = createReadStream(filePath);
 
     // const response = new NextResponse(fileStream, {
@@ -67,21 +54,19 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
     // return NextResponse.json({ url: filePath });
 
+    try {
+      // const fileName = await fsp.readFile(filePath);
 
-  try {
-    // const fileName = await fsp.readFile(filePath);
-    
-    return new NextResponse(fileData, {
-      headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `inline; filename="${downloadedFile}"`,
-      },
-    });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'File not found' }, { status: 404 });
-  }
-    
+      return new NextResponse(fileData, {
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': `inline; filename="${downloadedFile}"`,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json({ error: 'File not found' }, { status: 404 });
+    }
   } catch (error) {
     return NextResponse.json(
       [
