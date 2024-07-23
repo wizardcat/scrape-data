@@ -2,7 +2,7 @@
 const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['puppeteer-core', '@sparticuz/chromium'],
-    outputFileTracingRoot: path.join(__dirname, 'tmp/'),
+    outputFileTracingRoot: path.join(__dirname, '../../'),
   },
 };
 
