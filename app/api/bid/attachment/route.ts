@@ -31,7 +31,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     // });
     // const downloadPath = path.join(docDirectoryPath, pathToPublic, pathToDocs);
     // const downloadPath = path.join(process.cwd(), 'public', documentsDirectory);
-    const downloadPath = path.join(process.cwd(), 'tmp/', documentsDirectory);
+    const downloadPath = path.join( '/tmp/', documentsDirectory);
     console.log('downloadPath: ', downloadPath);
     
     // const downloadPath = path.join(__dirname, 'public', documentsDirectory);
