@@ -3,7 +3,7 @@ import path from 'path';
 const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['puppeteer-core', '@sparticuz/chromium'],
-    outputFileTracingRoot: path.join(process.cwd(), '../../'),
+    outputFileTracingRoot: path.join(process.cwd(), 'tmp/'),
   },
 };
 
