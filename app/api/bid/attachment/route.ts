@@ -39,7 +39,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     if (!fs.existsSync(downloadPath)) {
       fs.mkdirSync(downloadPath, { recursive: true });
     }
-
+ console.log('downloadPath creation: done');
     const downloadedFile = await downloadDocument(url, downloadPath);
     const filePath = path.join(downloadPath, downloadedFile);
     console.log('filePath: ', filePath);
