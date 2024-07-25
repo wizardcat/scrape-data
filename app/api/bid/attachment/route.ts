@@ -1,5 +1,6 @@
 import { documentsDirectory } from '@/common/config';
 import { downloadDocument } from '@/services/download-document';
+import { getContentType } from '@/utils/get-content-type';
 import fs from 'fs';
 import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
@@ -56,10 +57,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
     try {
       // const fileName = await fsp.readFile(filePath);
+      const contentType = getContentType(downloadedFile);  
 
       return new NextResponse(fileData, {
         headers: {
-          'Content-Type': 'application/pdf',
+          'Content-Type': contentType,
           'Content-Disposition': `inline; filename="${downloadedFile}"`,
         },
       });
