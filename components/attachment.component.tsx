@@ -1,4 +1,5 @@
 'use client';
+import { CONTENT_TYPE } from '@/common/constants';
 import { Attachment } from '@/common/interfaces';
 import { useState } from 'react';
 
@@ -12,8 +13,9 @@ export const AttachedDoc = ( { attachment }: AttachmentProps) => {
   const [isShowDoc, setIsShowDoc] = useState<boolean>(false);
   const [clickedUrl, setClickedUrl] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [contentType, setContentType] = useState<string>('');
+  
   const handleShowClick = async (url: string) => {
-    console.log(url);
 
     if (clickedUrl.includes(url)) {
       setIsShowDoc(!isShowDoc);
@@ -27,6 +29,8 @@ export const AttachedDoc = ( { attachment }: AttachmentProps) => {
     if (response.ok) {
       const blob = await response.blob();
       const objectUrl = URL.createObjectURL(blob);
+      setContentType(blob.type);
+      
       setDocUrl(objectUrl);
       setIsShowDoc(!isShowDoc);
       setClickedUrl([...clickedUrl, url]);
@@ -46,7 +50,7 @@ export const AttachedDoc = ( { attachment }: AttachmentProps) => {
       </button>
       {clickedUrl.includes(link) && isShowDoc && docUrl && (
         <div className="mt-4">
-          <iframe src={docUrl} className="w-full h-[600px]" />
+          {contentType===CONTENT_TYPE.pdf&&<iframe src={docUrl} className="w-full h-[600px]" />}
         </div>
       )}
     </div>

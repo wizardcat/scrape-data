@@ -25,15 +25,10 @@ async function getBrowser() {
 export async function downloadDocument(url: string, downloadPath: string): Promise<string> {
   try {
     const browser = await getBrowser();
-    // const browser = await puppeteer.launch({
-    //   headless: true,
-    //   args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    // });
-
     const page = await browser.newPage();
 
     const client = await page.createCDPSession();
-    
+
     await client.send('Page.setDownloadBehavior', {
       behavior: 'allow',
       downloadPath: downloadPath,
@@ -45,10 +40,11 @@ export async function downloadDocument(url: string, downloadPath: string): Promi
     await page.waitForSelector(downloadButtonSelector);
     await page.click(downloadButtonSelector);
 
+    // Wait for the file to be downloaded
     await new Promise((resolve) => setTimeout(resolve, 4500));
 
     const files = fs.readdirSync(downloadPath);
-    const downloadedFile = files.find((file) => file.endsWith('.pdf'));
+    const downloadedFile = files.find((file) => file);
 
     await browser.close();
 
@@ -56,12 +52,9 @@ export async function downloadDocument(url: string, downloadPath: string): Promi
       throw new Error('No file downloaded');
     }
 
-    // const filePath = path.join(downloadPath, downloadedFile);
-    // return filePath;
     return downloadedFile;
   } catch (error) {
     console.log('error: ', error);
-    
     throw error;
   }
 }
