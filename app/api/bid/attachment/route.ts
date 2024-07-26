@@ -1,5 +1,5 @@
 import { documentsDirectory } from '@/common/config';
-import { getDocument } from '@/services/download-document';
+import { getDocument } from '@/services/get-document';
 import fs from 'fs';
 import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
