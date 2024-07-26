@@ -25,7 +25,7 @@ async function getBrowser() {
   }
 }
 
-export async function downloadDocument(url: string, downloadPath: string): Promise<string> {
+export async function getDocument(url: string, downloadPath: string): Promise<string> {
   try {
     const browser = await getBrowser();
     const page = await browser.newPage();
@@ -60,8 +60,6 @@ export async function downloadDocument(url: string, downloadPath: string): Promi
     if (downloadedFile.endsWith('.pdf')) {
       return filePath;
     }
-console.log('downloadedFile: ', downloadedFile);
-
     const outputFilePath = path.join(downloadPath, `${uuidv4()}.pdf`);
     await convertToPDF(filePath, outputFilePath);
 
@@ -70,7 +68,6 @@ console.log('downloadedFile: ', downloadedFile);
 
     return outputFilePath;
   } catch (error) {
-    console.log('error: ', error);
     throw error;
   }
 }

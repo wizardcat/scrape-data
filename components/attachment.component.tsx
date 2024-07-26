@@ -2,6 +2,7 @@
 import { CONTENT_TYPE } from '@/common/constants';
 import { Attachment } from '@/common/interfaces';
 import { useState } from 'react';
+import { ErrorMessage } from './error.component';
 
 interface AttachmentProps {
   attachment: Attachment;
@@ -35,7 +36,7 @@ export const AttachedDoc = ( { attachment }: AttachmentProps) => {
       setIsShowDoc(!isShowDoc);
       setClickedUrl([...clickedUrl, url]);
     } else {
-      console.error('Failed to download document');
+      ErrorMessage({ error: 'Failed to download document' });
     }
 
     setIsLoading(false);
