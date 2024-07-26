@@ -1,7 +1,10 @@
+import { convertToPDF } from '@/utils/convert-to-pdf';
 import chromium from '@sparticuz/chromium';
 import fs from 'fs';
+import path from 'path';
 import puppeteer from 'puppeteer';
 import puppeteerCore from 'puppeteer-core';
+import { v4 as uuidv4 } from 'uuid';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,7 +31,6 @@ export async function downloadDocument(url: string, downloadPath: string): Promi
     const page = await browser.newPage();
 
     const client = await page.createCDPSession();
-
     await client.send('Page.setDownloadBehavior', {
       behavior: 'allow',
       downloadPath: downloadPath,
@@ -40,11 +42,12 @@ export async function downloadDocument(url: string, downloadPath: string): Promi
     await page.waitForSelector(downloadButtonSelector);
     await page.click(downloadButtonSelector);
 
-    // Wait for the file to be downloaded
     await new Promise((resolve) => setTimeout(resolve, 4500));
 
     const files = fs.readdirSync(downloadPath);
-    const downloadedFile = files.find((file) => file);
+    const downloadedFile = files.find(
+      (file) => file.endsWith('.pdf') || file.endsWith('.docx') || file.endsWith('.xlsx'),
+    );
 
     await browser.close();
 
@@ -52,7 +55,20 @@ export async function downloadDocument(url: string, downloadPath: string): Promi
       throw new Error('No file downloaded');
     }
 
-    return downloadedFile;
+    const filePath = path.join(downloadPath, downloadedFile);
+
+    if (downloadedFile.endsWith('.pdf')) {
+      return filePath;
+    }
+console.log('downloadedFile: ', downloadedFile);
+
+    const outputFilePath = path.join(downloadPath, `${uuidv4()}.pdf`);
+    await convertToPDF(filePath, outputFilePath);
+
+    // Clean up the original file
+    fs.unlinkSync(filePath);
+
+    return outputFilePath;
   } catch (error) {
     console.log('error: ', error);
     throw error;

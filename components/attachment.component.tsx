@@ -46,11 +46,16 @@ export const AttachedDoc = ( { attachment }: AttachmentProps) => {
         onClick={() => handleShowClick(link)}
         className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded w-full"
       >
-        {clickedUrl.includes(link) && isShowDoc ? 'Hide Document' : isLoading ? 'Loading...' : title}
+        {clickedUrl.includes(link) && isShowDoc
+          ? 'Hide Document'
+          : isLoading
+          ? 'Loading...'
+          : title}
       </button>
       {clickedUrl.includes(link) && isShowDoc && docUrl && (
         <div className="mt-4">
-          {contentType===CONTENT_TYPE.pdf&&<iframe src={docUrl} className="w-full h-[600px]" />}
+          {contentType === CONTENT_TYPE.pdf && <iframe src={docUrl} className="w-full h-[600px]" />}
+          {/* {contentType === CONTENT_TYPE.xlsx && <XLSXDoc src={docUrl} />} */}
         </div>
       )}
     </div>

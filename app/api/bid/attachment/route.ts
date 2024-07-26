@@ -1,6 +1,5 @@
 import { documentsDirectory } from '@/common/config';
 import { downloadDocument } from '@/services/download-document';
-import { getContentType } from '@/utils/get-content-type';
 import fs from 'fs';
 import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
@@ -33,10 +32,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
       fs.mkdirSync(downloadPath, { recursive: true });
     }
     const downloadedFile = await downloadDocument(url, downloadPath);
-    const filePath = path.join(downloadPath, downloadedFile);
-    console.log('filePath: ', filePath);
-
-    const fileData = fs.readFileSync(filePath);
+    // const filePath = path.join(downloadPath, downloadedFile);
+    // console.log('filePath: ', filePath);
+    const fileData = fs.readFileSync(downloadedFile);
+    // const fileData = fs.readFileSync(filePath);
 
     // res.headers.set('Content-Disposition', `attachment; filename=${path.basename(filePath)}`);
     // res.headers.set('Content-Type', 'application/pdf');
@@ -50,18 +49,19 @@ export async function GET(req: NextRequest, res: NextResponse) {
     // });
 
     // Clean up
-    fs.unlinkSync(filePath);
+    fs.unlinkSync(downloadedFile);
     // return response;
 
     // return NextResponse.json({ url: filePath });
 
     try {
       // const fileName = await fsp.readFile(filePath);
-      const contentType = getContentType(downloadedFile);  
+      // const contentType = getContentType(downloadedFile);  
 
       return new NextResponse(fileData, {
         headers: {
-          'Content-Type': contentType,
+          // 'Content-Type': contentType,
+          'Content-Type': 'application/pdf',
           'Content-Disposition': `inline; filename="${downloadedFile}"`,
         },
       });

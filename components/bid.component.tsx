@@ -1,10 +1,10 @@
 'use client';
 import { useBidQuery } from '@/hooks/use-bid-query.hook';
 import useBidStore from '@/store/bidStore';
+import { Attachments } from './attachments.component';
 import { ErrorMessage } from './error.component';
 import { NoDataFound } from './no-data-found.component';
 import { Search } from './search.component';
-import { DocViewerDirect } from './doc-viewer-direct.component';
 
 const BidSearch = () => {
   const currentBidId = useBidStore((state) => state.currentBidId);
@@ -35,7 +35,7 @@ const BidSearch = () => {
           </p>
           <div>
             {/* <strong>Attachments:</strong> */}
-            {bidDetails?.title && <DocViewerDirect attachments={bidDetails.attachments} />}
+            {bidDetails?.title && <Attachments attachments={bidDetails.attachments} />}
             {/* <ul className="list-disc pl-5">
               {bidDetails?.attachments?.map((attachment, index) => (
                 <li key={index}>
