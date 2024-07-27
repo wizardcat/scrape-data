@@ -34,28 +34,10 @@ const BidSearch = () => {
             <strong>Solicitation Type:</strong> {bidDetails.solicitationType}
           </p>
           <div>
-            {/* <strong>Attachments:</strong> */}
             {bidDetails?.title && <Attachments attachments={bidDetails.attachments} />}
-            {/* <ul className="list-disc pl-5">
-              {bidDetails?.attachments?.map((attachment, index) => (
-                <li key={index}>
-                  <a
-                    href={attachment.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 underline"
-                  >
-                    {attachment.title}
-                  </a>
-                  <div>{attachment.fileName}</div>
-                </li>
-              ))}
-            </ul> */}
           </div>
         </div>
       )}
-      {/* <Document /> */}
-      {/* {bidDetails?.title && <PdfViewer />} */}
       {!isError && currentBidId && !isLoading && !bidDetails?.title && <NoDataFound />}
       {isError && <ErrorMessage error={error.message} />}
     </div>

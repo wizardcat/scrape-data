@@ -1,4 +1,3 @@
-'use client';
 import { Attachment } from '@/common/interfaces';
 import { useDocumentQuery } from '@/hooks/use-document-query.hook';
 import { useState } from 'react';

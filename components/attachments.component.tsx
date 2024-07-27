@@ -1,4 +1,3 @@
-'use client';
 import { Attachment } from '@/common/interfaces';
 import { AttachedDoc } from './attachment.component';
 
